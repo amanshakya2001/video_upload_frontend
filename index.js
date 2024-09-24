@@ -23,7 +23,12 @@ async function uploadFile() {
     formData.append('fileName', file.name);
 
     // Send chunk to the server
-    await uploadChunk(formData);
+    const response = await uploadChunk(formData);
+
+    // If this is the final chunk, log the file URL
+    if (response.status === 'complete') {
+      console.log('File URL:', response.fileUrl);
+    }
 
     // Update progress
     currentChunk++;
@@ -35,10 +40,13 @@ async function uploadFile() {
 
 async function uploadChunk(formData) {
   try {
-    await fetch('https://video-upload-8jt2.onrender.com/upload', {
+    const response = await fetch('https://video-upload-8jt2.onrender.com/upload/', {
       method: 'POST',
       body: formData,
     });
+
+    // Return the JSON response
+    return await response.json();
   } catch (error) {
     console.error('Chunk upload failed:', error);
     throw error;
