@@ -35,7 +35,7 @@ async function uploadFile() {
 
 async function uploadChunk(formData) {
   try {
-    await fetch('/upload', {
+    await fetch('https://video-upload-8jt2.onrender.com/upload', {
       method: 'POST',
       body: formData,
     });
